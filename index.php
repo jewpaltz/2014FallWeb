@@ -8,7 +8,7 @@
 	<body> 
 		<div>
 			<header>
-				<h1>This is our first file</h1>
+				<h1>This was edited in Cloud 9</h1>
 			</header>
 			<nav>
 				<p>
