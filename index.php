@@ -8,7 +8,8 @@
 	<body> 
 		<div>
 			<header>
-				<h1>This was edited in Cloud 9</h1>
+				<h1>This was edited in Aptana</h1>
+				<h2>Today is Sep 4th</h2>
 			</header>
 			<nav>
 				<p>
