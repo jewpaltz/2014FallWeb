@@ -33,6 +33,13 @@
 				  </div>
 				</div>
 				
+				<!-- Alert -->
+				<div class="alert alert-success initialy-hidden" id="myAlert">
+					<button type="button" class="close" data-dismiss="alert">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					Excelent Job. Your meal has been recorded
+				</div>
 				
           <div class="table-responsive">
             <table class="table table-striped">
@@ -96,6 +103,9 @@
 				$("#top-nav").load("inc/_nav.html", function(){
 					$(".food").addClass("active");					
 				});
+				$('#myModal').on('hidden.bs.modal', function (e) {
+				  $("#myAlert").show();
+				})
 			});
 		</script>
 	</body>

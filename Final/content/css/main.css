@@ -12,6 +12,10 @@
 			.content, header .container, footer .container { background-color: #FFF; }
 			.placeholder { text-align: center; }
 
+			.initialy-hidden {
+				display: none;
+			}
+			
 			footer {
 			  position: absolute;
 			  bottom: 0;
