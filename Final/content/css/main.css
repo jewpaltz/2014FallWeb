@@ -7,6 +7,8 @@
 				margin-bottom: 60px;
 			}
 			body { background-color: #DDE; }
+			
+			.content { min-height: 600px; }
 			.content, header .container, footer .container { background-color: #FFF; }
 			.placeholder { text-align: center; }
 
