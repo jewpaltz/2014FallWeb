@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-
-		<title>Fitness Tracker</title>
-		<meta name="viewport" content="width=device-width; initial-scale=1.0">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-		<link rel="stylesheet" href="../content/css/main.css">
-		
-	</head>
-
-	<body>
-		<div id="top-nav"></div>
 			<header>
 				<div class="container">
 					<h1>Fitness Tracker - Food</h1>
@@ -20,7 +5,7 @@
 			</header>
 
 			<div class="container content">
-				<a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="?action=edit">
+				<a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="?action=edit&format=plain">
 					<i class="glyphicon glyphicon-plus"></i>
 					Add
 				</a>
@@ -88,25 +73,11 @@
 
 			</div>
 
-			<footer>
-				<div class="container">
-					<p>
-						&copy; Copyright  by Moshe
-					</p>
-				</div>
-			</footer>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.4.0/holder.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$("#top-nav").load("../inc/_nav.html", function(){
-					$(".food").addClass("active");					
-				});
+				$(".food").addClass("active");					
 				$('#myModal').on('hidden.bs.modal', function (e) {
 				  $("#myAlert").show();
 				})
 			});
 		</script>
-	</body>
-</html>
