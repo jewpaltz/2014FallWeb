@@ -1,3 +1,6 @@
+<?
+	include 'inc/global_includes.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -20,6 +23,16 @@
 			</header>
 
 			<div class="container content">
+				
+				<?
+					$msg = null;
+					$arr = array('first' => 'breakfast', 'second' => 'lunch' , 'third' => 'dinner');
+					$arr['fourth'] = 'midnight snack';
+					//my_print ($arr);
+					$meal = $arr['first'];
+					$msg = "Excelent Job. Your $arr[second] has been recorded";
+				?>
+				
 				<a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="_food_form.html">
 					<i class="glyphicon glyphicon-plus"></i>
 					Add
@@ -34,12 +47,14 @@
 				</div>
 				
 				<!-- Alert -->
+				<? foreach($arr as $key => $meal): ?>
 				<div class="alert alert-success initialy-hidden" id="myAlert">
 					<button type="button" class="close" data-dismiss="alert">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					Excelent Job. Your meal has been recorded
+						Excelent Job. Your <?=$key?> meal i.e. <?=$meal?> has been recorded				
 				</div>
+				<? endforeach; ?>
 				
           <div class="table-responsive">
             <table class="table table-striped">

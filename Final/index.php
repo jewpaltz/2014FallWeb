@@ -29,14 +29,14 @@
               </a>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
-              <a href="food.html">
+              <a href="food.php">
 	              <img src="holder.js/200x200/auto/vine/text:Food" class="img-responsive img-circle center-block" >
 	              <h4>Food</h4>
 	              <span class="text-muted">Intake tracker</span>
               </a>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
-              <a href="exrcise.html">
+              <a href="exrcise.php">
 	              <img src="holder.js/200x200/auto/industrial/text:Exercise" class="img-responsive img-circle center-block" >
 	              <h4>Exercise</h4>
 	              <span class="text-muted">Workout tracker</span>
