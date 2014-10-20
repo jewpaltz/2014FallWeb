@@ -14,6 +14,7 @@ switch ($action . '_' . $method) {
 		//	Proccess input
 		break;
 	case 'edit_GET':
+		$model = Food::Get($_REQUEST['id']);
 		$view = "food/edit.php";		
 		break;
 	case 'edit_POST':

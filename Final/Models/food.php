@@ -9,7 +9,13 @@ class Food {
 	{
 		$sql = "	SELECT * FROM 2014Fall_Food_Eaten
 		";
-		return FetchAll($sql);
+		if($id){
+			$sql .= " WHERE id=$id ";
+			$ret = FetchAll($sql);
+			return $ret[0];
+		}else{
+			return FetchAll($sql);			
+		}
 	}
 }
 
