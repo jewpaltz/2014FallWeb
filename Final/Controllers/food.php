@@ -1,4 +1,5 @@
 <?
+	include_once __DIR__ . '/../inc/_all.php';
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : null;
 $method = isset($_POST['submit']) ? 'POST' : 'GET';
@@ -13,6 +14,7 @@ switch ($action . '_' . $method) {
 		//	Proccess input
 		break;
 	case 'edit_GET':
+		$model = Food::Get($_REQUEST['id']);
 		$view = "food/edit.php";		
 		break;
 	case 'edit_POST':
@@ -26,13 +28,14 @@ switch ($action . '_' . $method) {
 		break;
 	case 'index_GET':
 	default:
+		$model = Food::Get();
 		$view = 'food/index.php';		
 		break;
 }
 
 switch ($format) {
 	case 'json':
-		//	To be implemented
+		echo json_encode($model);
 		break;
 	case 'plain':
 		include __DIR__ . "/../Views/$view";		
