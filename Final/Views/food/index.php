@@ -5,7 +5,7 @@
 			</header>
 
 			<div class="container content">
-				<a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="?action=edit&format=plain">
+				<a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="?action=create&format=plain">
 					<i class="glyphicon glyphicon-plus"></i>
 					Add
 				</a>
@@ -36,6 +36,7 @@
                   <th>Carbs (g)</th>
                   <th>Fiber (g)</th>
                   <th>Time</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -47,6 +48,12 @@
                   <td><?=$rs['Carbs']?></td>
                   <td><?=$rs['Fiber']?></td>
                   <td><?=$rs['Time']?></td>
+                  <td>
+					<a title="Edit" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal" href="?action=edit&format=plain&id=<?=$rs['id']?>">
+						<i class="glyphicon glyphicon-pencil"></i>
+					</a>
+                  	
+                  </td>
                 </tr>
                 <? endforeach; ?>
               </tbody>

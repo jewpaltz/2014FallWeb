@@ -7,6 +7,13 @@ function GetConnection(){
 	return new mysqli('localhost','plotkinm',$sql_password,'plotkinm_db');
 }
 
+function my_print($x){
+	?><pre><?
+		print_r($x);
+	?></pre><?
+}
+
+
 function FetchAll($sql){
 		$ret = array();
 		$conn = GetConnection();
