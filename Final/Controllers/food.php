@@ -11,15 +11,26 @@ switch ($action . '_' . $method) {
 		$model = Food::Blank();
 		$view = "food/edit.php";
 		break;
-	case 'create_POST':
-		//	Proccess input
+	case 'save_POST':
+		// Validate
+		if($_REQUEST['id'])
+		{
+			//update
+			Food::Save($_REQUEST);
+		}else{
+			//create
+			Food::Save($_REQUEST);
+		}
+		// if error
+		//		display error message
+		//		re display form
+		// else
+		//		congratulate user
+		//		display list including edited/new frow
 		break;
 	case 'edit_GET':
 		$model = Food::Get($_REQUEST['id']);
 		$view = "food/edit.php";		
-		break;
-	case 'edit_POST':
-		//	Proccess input
 		break;
 	case 'delete_GET':
 		$view = "food/delete.php";		

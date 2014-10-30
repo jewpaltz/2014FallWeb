@@ -5,7 +5,7 @@
 			</header>
 
 			<div class="container content">
-				<a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="?action=create&format=plain">
+				<a class="btn btn-success toggle-modal" data-target="#myModal" href="?action=create">
 					<i class="glyphicon glyphicon-plus"></i>
 					Add
 				</a>
@@ -49,7 +49,7 @@
                   <td><?=$rs['Fiber']?></td>
                   <td><?=$rs['Time']?></td>
                   <td>
-					<a title="Edit" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal" href="?action=edit&format=plain&id=<?=$rs['id']?>">
+					<a title="Edit" class="btn btn-default btn-sm toggle-modal" data-target="#myModal" href="?action=edit&id=<?=$rs['id']?>">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
                   	
@@ -64,9 +64,17 @@
 
 		<script type="text/javascript">
 			$(function(){
-				$(".food").addClass("active");					
+				$(".food").addClass("active");
+				
+				$(".toggle-modal").on('click', function(event){
+					event.preventDefault();
+					$("#myModal .modal-content").load(this.href + "&format=plain");
+					$("#myModal").modal("show");
+				})
+								
 				$('#myModal').on('hidden.bs.modal', function (e) {
 				  $("#myAlert").show();
 				})
+				
 			});
 		</script>

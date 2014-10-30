@@ -22,6 +22,16 @@ class Food {
 			return FetchAll($sql);			
 		}
 	}
+	
+	public static function Save($id=null)
+	{
+		if($id){
+			$sql = "UPDATE 2014Fall_Food_Eaten SET ";
+		}else{
+			$sql = "INSERT Into 2014Fall_Food_Eaten ()";
+		}
+		$conn = GetConnetion();
+		$conn->query($sql);
 }
 
 	
