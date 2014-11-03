@@ -12,31 +12,44 @@ switch ($action . '_' . $method) {
 		$view = "food/edit.php";
 		break;
 	case 'save_POST':
-		// Validate
-		if($_REQUEST['id'])
-		{
-			//update
-			Food::Save($_REQUEST);
-		}else{
-			//create
-			Food::Save($_REQUEST);
-		}
-		// if error
-		//		display error message
-		//		re display form
-		// else
-		//		congratulate user
-		//		display list including edited/new frow
+			$sub_action = empty($_REQUEST['id']) ? 'created' : 'updated';
+			$errors = Users::Validate($_REQUEST);
+			if(!$errors){
+				$errors = Users::Save($_REQUEST);
+			}
+			if(!$errors){
+				header("Location: ?sub_action=$sub_action&id=$_REQUEST[id]");
+				die();
+			}else{
+				//print_r($errors);
+				$model = $_REQUEST;
+				$view = "food/edit.php";		
+			}
+			break;
+	case 'delete':
+			if($_SERVER['REQUEST_METHOD'] == 'GET'){
+				//Promt
+			}else{
+				
+			}
+			break;
 		break;
 	case 'edit_GET':
 		$model = Food::Get($_REQUEST['id']);
 		$view = "food/edit.php";		
 		break;
 	case 'delete_GET':
+		$model = Users::Get($_REQUEST['id']);
 		$view = "food/delete.php";		
 		break;
 	case 'delete_POST':
-		//	Proccess input
+		$errors = Users::Delete($_REQUEST['id']);
+		if($errors){
+				$view = "food/delete.php";
+		}else{
+				header("Location: ?sub_action=$sub_action&id=$_REQUEST[id]");
+				die();			
+		}
 		break;
 	case 'index_GET':
 	default:
