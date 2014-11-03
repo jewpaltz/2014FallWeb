@@ -38,3 +38,13 @@ function escape_all($row, $conn){
 	}
 	return $row2;
 }
+
+
+
+
+
+
+
+
+
+

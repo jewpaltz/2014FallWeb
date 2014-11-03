@@ -1,4 +1,7 @@
+
+
 <form class="form-horizontal" action="?action=save" method="post" >
+	
 	<input type="hidden" name="id" value="<?=$model['id']?>" />
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

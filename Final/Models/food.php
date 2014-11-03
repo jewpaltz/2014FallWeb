@@ -28,7 +28,7 @@ class Food {
 			$conn = GetConnection();
 			
 			$row2 = escape_all($row, $conn);
-			$row2['Time'] = date( 'Y-m-d H:i:s', $row2['Time'] );
+			$row2['Time'] = date( 'Y-m-d H:i:s', strtotime( $row2['Time'] ) );
 			if (!empty($row['id'])) {
 				$sql = "Update 2014Fall_Food_Eaten
 							Set Name='$row2[Name]', Calories='$row2[Calories]',
@@ -37,12 +37,13 @@ class Food {
 						";
 			}else{
 				$sql = "INSERT INTO 2014Fall_Food_Eaten
-						(Name, Calories, Fat, Carbs, Fiber, Time, created_at)
-						VALUES ('$row2[Name]', '$row2[Calories]', '$row2[Fat]', '$row2[Carbs]', '$row2[Fiber]', '$row2[Time]', Now() ) ";				
+						(Name, Calories, Fat, Carbs, Fiber, Time, created_at, UserId)
+						VALUES ('$row2[Name]', '$row2[Calories]', '$row2[Fat]', '$row2[Carbs]', '$row2[Fiber]', '$row2[Time]', Now(), 3 ) ";				
 			}
 			
 			
-			//echo $sql;
+			//my_print( $sql );
+			
 			$results = $conn->query($sql);
 			$error = $conn->error;
 			
@@ -54,6 +55,7 @@ class Food {
 			
 			return $error ? array ('sql error' => $error) : false;
 		}
+		
 		static public function Delete($id)
 		{
 			$conn = GetConnection();

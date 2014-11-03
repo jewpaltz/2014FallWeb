@@ -13,15 +13,16 @@ switch ($action . '_' . $method) {
 		break;
 	case 'save_POST':
 			$sub_action = empty($_REQUEST['id']) ? 'created' : 'updated';
-			$errors = Users::Validate($_REQUEST);
+			$errors = Food::Validate($_REQUEST);
 			if(!$errors){
-				$errors = Users::Save($_REQUEST);
+				$errors = Food::Save($_REQUEST);
 			}
+			
 			if(!$errors){
 				header("Location: ?sub_action=$sub_action&id=$_REQUEST[id]");
 				die();
 			}else{
-				//print_r($errors);
+				my_print($errors);
 				$model = $_REQUEST;
 				$view = "food/edit.php";		
 			}
