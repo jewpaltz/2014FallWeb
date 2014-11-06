@@ -52,6 +52,9 @@
 					<a title="Edit" class="btn btn-default btn-sm toggle-modal" data-target="#myModal" href="?action=edit&id=<?=$rs['id']?>">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
+					<a title="Delete" class="btn btn-default btn-sm toggle-modal" data-target="#myModal" href="?action=delete&id=<?=$rs['id']?>">
+						<i class="glyphicon glyphicon-trash"></i>
+					</a>
                   	
                   </td>
                 </tr>
