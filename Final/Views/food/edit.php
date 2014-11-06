@@ -19,10 +19,14 @@
   			</div>
   		<? endif; ?>
 
-		  <div class="form-group">
+		  <div class="form-group <?=!empty($errors['Name']) ? 'has-error has-feedback' : '' ?>">
 		    <label for="txtName" class="col-sm-2 control-label">Name</label>
 		    <div class="col-sm-10">
 		      <input type="text" class="form-control" id="txtName" name="Name" placeholder="Name" value="<?=$model['Name']?>">
+		      <? if(!empty($errors['Name'])): ?>
+		      	<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+		      	<span class="help-block"><?=$errors['Name']?></span>
+		      <? endif; ?>
 		    </div>
 		  </div>
 		  <div class="form-group">
