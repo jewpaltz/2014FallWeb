@@ -8,6 +8,16 @@
     <h4 class="modal-title" id="myModalLabel">Record a food</h4>
   </div>
   <div class="modal-body">
+  	
+  		<? if(!empty($errors)): ?>
+  			<div class="alert alert-danger">
+  				<ul>
+  				<? foreach ($errors as $key => $value): ?>
+					  <li><?=$key?> <?= $value ?></li>
+				<? endforeach; ?>
+				</ul>
+  			</div>
+  		<? endif; ?>
 
 		  <div class="form-group">
 		    <label for="txtName" class="col-sm-2 control-label">Name</label>

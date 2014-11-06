@@ -22,7 +22,7 @@ switch ($action . '_' . $method) {
 				header("Location: ?sub_action=$sub_action&id=$_REQUEST[id]");
 				die();
 			}else{
-				my_print($errors);
+				//my_print($errors);
 				$model = $_REQUEST;
 				$view = "food/edit.php";		
 			}
