@@ -1,12 +1,10 @@
 			<header>
 				<div class="container">
-					<h1>Fitness Tracker - Food</h1>
+					<h1>Fitness Tracker - Food Type</h1>
 				</div>
 			</header>
 
 			<div class="container content">
-				
-				<? //my_print($model); ?>
 				<a class="btn btn-success toggle-modal" data-target="#myModal" href="?action=create">
 					<i class="glyphicon glyphicon-plus"></i>
 					Add
@@ -33,12 +31,6 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Type</th>
-                  <th>Calories</th>
-                  <th>Fat (g)</th>
-                  <th>Carbs (g)</th>
-                  <th>Fiber (g)</th>
-                  <th>Time</th>
                   <th></th>
                 </tr>
               </thead>
@@ -46,12 +38,6 @@
               	<? foreach ($model as $rs): ?>
                 <tr>
                   <td><?=$rs['Name']?></td>
-                  <td><?=$rs['T_Name']?></td>
-                  <td><?=$rs['Calories']?></td>
-                  <td><?=$rs['Fat']?></td>
-                  <td><?=$rs['Carbs']?></td>
-                  <td><?=$rs['Fiber']?></td>
-                  <td><?=$rs['Time']?></td>
                   <td>
 					<a title="Edit" class="btn btn-default btn-sm toggle-modal" data-target="#myModal" href="?action=edit&id=<?=$rs['id']?>">
 						<i class="glyphicon glyphicon-pencil"></i>
