@@ -14,6 +14,9 @@
 				<div class="modal fade" id="myModal" tabindex="-1" >
 				  <div class="modal-dialog">
 				    <div class="modal-content">
+				    	<div class="modal-body">
+				    		<img src="../content/images/wait.gif" />
+				    	</div>
 				    </div>
 				  </div>
 				</div>
@@ -61,7 +64,18 @@
 				
 				$(".toggle-modal").on('click', function(event){
 					event.preventDefault();
-					$("#myModal .modal-content").load(this.href + "&format=plain");
+					$.get(this.href + "&format=plain", function(data){
+							$("#myModal .modal-content")
+							.html(data)
+							.find("form")
+							.on('submit', function(event){
+								event.preventDefault();
+								$.post(this.action, $(this).serialize()  + "&format=json", function(data){
+									alert(data);
+								}, 'json');
+							});
+					});
+					
 					$("#myModal").modal("show");
 				})
 								
