@@ -68,20 +68,71 @@
           </div>
 
 			</div>
-
+		<script type="text/javascript" src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js"></script>
 		<script type="text/javascript">
 			$(function(){
 				$(".food").addClass("active");
 				
+				var $mContent = $("#myModal .modal-content");
+				var defaultContent = $mContent.html();
+				
+				var tmpl = Handlebars.compile($("#tmpl").html());
+				
 				$(".toggle-modal").on('click', function(event){
 					event.preventDefault();
-					$("#myModal .modal-content").load(this.href + "&format=plain");
 					$("#myModal").modal("show");
+					
+					$.get(this.href + "&format=plain", function(data){
+						$mContent.html(data);
+						$mContent.find('form')
+						.on('submit', function(e){
+							e.preventDefault();
+							$("#myModal").modal("hide");
+							
+							$.post(this.action + '&format=json', $(this).serialize(), function(data){
+								$("#myAlert").show().find('div').html(JSON.stringify(data));
+							
+								
+								$('tbody').append(tmpl(data));
+								
+							}, 'json');
+							
+							
+						});
+					});
 				})
 								
 				$('#myModal').on('hidden.bs.modal', function (e) {
-				  $("#myAlert").show();
+					$mContent.html(defaultContent);
+				    
 				})
+				
+				$('.alert .close').on('click',function(e){
+					$(this).closest('.alert').slideUp();
+				});
+
 				
 			});
 		</script>
+		
+		<script type="text/anything" id="tmpl">
+                <tr>
+                  <td>{{Name}}</td>
+                  <td>{{T_Name}}</td>
+                  <td>{{Calories}}</td>
+                  <td>{{Fat}}</td>
+                  <td>{{Carbs}}</td>
+                  <td>{{Fiber}}</td>
+                  <td>{{Time}}</td>
+                  <td>
+					<a title="Edit" class="btn btn-default btn-sm toggle-modal" data-target="#myModal" href="?action=edit&id={{id}}">
+						<i class="glyphicon glyphicon-pencil"></i>
+					</a>
+					<a title="Delete" class="btn btn-default btn-sm toggle-modal" data-target="#myModal" href="?action=delete&id={{id}}">
+						<i class="glyphicon glyphicon-trash"></i>
+					</a>
+                  	
+                  </td>
+                </tr>			
+		</script>
+		

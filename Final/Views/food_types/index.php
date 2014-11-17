@@ -1,3 +1,4 @@
+			<? sleep(1); ?>
 			<header>
 				<div class="container">
 					<h1>Fitness Tracker - Food Type</h1>
@@ -14,16 +15,21 @@
 				<div class="modal fade" id="myModal" tabindex="-1" >
 				  <div class="modal-dialog">
 				    <div class="modal-content">
+				    	<div style="text-align: center">
+				    		<img width="150" height="150" src="../content/images/jar-loading.gif" />
+				    	</div>
 				    </div>
 				  </div>
 				</div>
 				
 				<!-- Alert -->
 				<div class="alert alert-success initialy-hidden" id="myAlert">
-					<button type="button" class="close" data-dismiss="alert">
+					<button type="button" class="close" >
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					Excelent Job. Your meal has been recorded
+					<div>
+						Excelent Job. Your meal has been recorded
+					</div>
 				</div>
 				
           <div class="table-responsive">
@@ -59,15 +65,39 @@
 			$(function(){
 				$(".food").addClass("active");
 				
+				var $mContent = $("#myModal .modal-content");
+				var defaultContent = $mContent.html();
 				$(".toggle-modal").on('click', function(event){
 					event.preventDefault();
-					$("#myModal .modal-content").load(this.href + "&format=plain");
 					$("#myModal").modal("show");
+					
+					$.get(this.href + "&format=plain", function(data){
+						$mContent.html(data);
+						$mContent.find('form')
+						.on('submit', function(e){
+							e.preventDefault();
+							$("#myModal").modal("hide");
+							
+							$.post(this.action + '&format=json', $(this).serialize(), function(data){
+								$("#myAlert").show().find('div').html(JSON.stringify(data));
+							
+								$("tr:eq(1)").clone()
+								.appendTo('tbody').find('td:eq(0)')
+								.text(data.Name);
+							}, 'json');
+							
+							
+						});
+					});
 				})
 								
 				$('#myModal').on('hidden.bs.modal', function (e) {
-				  $("#myAlert").show();
+					$mContent.html(defaultContent);
+				    
 				})
 				
+				$('.alert .close').on('click',function(e){
+					$(this).closest('.alert').slideUp();
+				});
 			});
 		</script>

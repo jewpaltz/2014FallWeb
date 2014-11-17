@@ -2,7 +2,7 @@
 	include_once __DIR__ . '/../inc/_all.php';
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : null;
-$method = isset($_POST['submit']) ? 'POST' : 'GET';
+$method = $_SERVER['REQUEST_METHOD'];
 $format = isset($_REQUEST['format']) ? $_REQUEST['format'] : 'web';
 $view 	= null;
 
@@ -19,7 +19,11 @@ switch ($action . '_' . $method) {
 			}
 			
 			if(!$errors){
-				header("Location: ?sub_action=$sub_action&id=$_REQUEST[id]");
+				if($format == 'json'){
+					header("Location: ?action=edit&format=json&id=$_REQUEST[id]");
+				}else{
+					header("Location: ?sub_action=$sub_action&id=$_REQUEST[id]");
+				}
 				die();
 			}else{
 				//my_print($errors);

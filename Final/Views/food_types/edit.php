@@ -1,5 +1,5 @@
 
-
+<? sleep(1); ?>
 <form class="form-horizontal" action="?action=save" method="post" >
 	
 	<input type="hidden" name="id" value="<?=$model['id']?>" />
