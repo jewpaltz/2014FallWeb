@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 <? sleep(2); ?>
+=======
+<? sleep(1); ?>
+>>>>>>> origin/Nov_17
 <form class="form-horizontal" action="?action=save" method="post" >
 	
 	<input type="hidden" name="id" value="<?=$model['id']?>" />
