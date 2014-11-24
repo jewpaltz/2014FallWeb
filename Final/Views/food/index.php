@@ -4,7 +4,7 @@
 	</div>
 </header>
 
-<div class="container content">
+<div class="container content" ng-app="app" ng-controller='index' >
 	
 	<? //my_print($model); ?>
 	<a class="btn btn-success toggle-modal add" data-target="#myModal" href="?action=create">
@@ -12,7 +12,7 @@
 		Add
 	</a>
 	
-	<div class="row">
+	<div class="row" >
 		<div class="col-sm-8">
 						
 				<!-- Modal -->
@@ -46,32 +46,49 @@
                 </tr>
               </thead>
               <tbody>
+               <tr ng-repeat='row in data'>
+                  <td>{{row.Name}}</td>
+                  <td>{{row.T_Name}}</td>
+                  <td>{{row.Calories}}</td>
+                  <td>{{row.Fat}}</td>
+                  <td>{{row.Carbs}}</td>
+                  <td>{{row.Fiber}}</td>
+                  <td>{{row.Time}}</td>
+                  <td>
+					<a title="Edit" class="btn btn-default btn-sm toggle-modal edit" data-target="#myModal" href="?action=edit&id={{row.id}}">
+						<i class="glyphicon glyphicon-pencil"></i>
+					</a>
+					<a title="Delete" class="btn btn-default btn-sm toggle-modal delete" data-target="#myModal" href="?action=delete&id={{row.id}}">
+						<i class="glyphicon glyphicon-trash"></i>
+					</a>
+                  	
+                  </td>
+                </tr>			
               </tbody>
             </table>
           </div>
 		</div>
 		<div class="col-sm-4">
-			<div class="well">
-				<input type="text" id="txtHeight" class="form-control" placeholder="Your Height (in)" />
-				<input type="text" id="txtWeight" class="form-control" placeholder="Your Weight" />
+			<div class="well" ng-controller="bmiCalculator" >
+				<input type="text" ng-model='height' class="form-control" placeholder="Your Height (in)" />
+				<input type="text" ng-model='weight'  class="form-control" placeholder="Your Weight" />
 				<div class="alert alert-success">
-					Your BMI:
-					<span id="bmi-total"></span>
+					Your BMI: {{ results() }}
 				</div>
 			</div>
 			<div class="well">
 				<div class="progress">
-				  <div class="progress-bar" id="calories-bar">
+				  <div class="progress-bar" ng-style="{ width: (calories / 2000 * 100) + '%' }">
 				  	Calories
 				  </div>
 				</div>
 				<div class="progress">
-				  <div class="progress-bar" id="fat-bar">
+				  <div class="progress-bar"  ng-style="{ width: (fat / 60 * 100) + '%' }">
 				  	Fat
 				  </div>
 				</div>
 				<div class="progress">
-				  <div class="progress-bar" id="fiber-bar">
+				  <div class="progress-bar"  ng-style="{ width: (fiber / 60 * 100) + '%' }">
 				  	Fiber
 				  </div>
 				</div>
@@ -82,39 +99,40 @@
 			
 			
 			
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 		<script type="text/javascript" src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js"></script>
 		<script type="text/javascript">
+			
+			var app = angular.module('app', [])
+			.controller('bmiCalculator', function ($scope){
+				$scope.results = function(){
+					return ($scope.weight / ($scope.height * $scope.height)) * 703;
+				};
+			})
+			.controller('index', function($scope, $http){
+				$http.get('?format=json')
+				.success(function(data){
+					$scope.data = data;
+					$scope.calories = sum(data, 'Calories');
+					$scope.fat = sum(data, 'Fat');
+					$scope.fiber = sum(data, 'Fiber');
+				});
+			});
+			
+			function sum(data, field){
+				var total = 0;
+				$.each(data, function(i, el){
+					total += el[field];
+				});
+				return total;
+			}
 			$(function(){
 				$(".food").addClass("active");
-				
-				var calories = { goal: 2000, total: 0 };
-				var fat = { goal: 60, total: 0 };
-				var fiber = { goal: 60, total: 0 };
-				
+								
 				var $mContent = $("#myModal .modal-content");
 				var defaultContent = $mContent.html();
 				
-				var tmpl = Handlebars.compile($("#tmpl").html());
-				
-				$.getJSON('?format=json', function(data){
-					$.each(data, function(i,el){
-						calories.total += +el.Calories;
-						fat.total += +el.Fat;
-						fiber.total += +el.Fiber;
-						
-						$('tbody').append(tmpl(el));
-					});
-					$('#calories-bar').css({width: Math.round(calories.total / calories.goal * 100) + '%'});
-					$('#fat-bar').css({width: Math.round(fat.total / fat.goal * 100) + '%'});
-					$('#fiber-bar').css({width: Math.round(fiber.total / fiber.goal * 100) + '%'});
-				});
-				
-				$('#txtHeight, #txtWeight').on('keypress', function(){
-					var height = +$('#txtHeight').val();
-					var weight = +$('#txtWeight').val();
-					var bmi = (weight / (height * height)) * 703
-					$('#bmi-total').html(bmi);
-				});
+								
 				
 				$('body').on('click', ".toggle-modal", function(event){
 					event.preventDefault();
@@ -162,25 +180,3 @@
 				
 			});
 		</script>
-		
-		<script type="text/x-handlebars-template" id="tmpl">
-                <tr>
-                  <td>{{Name}}</td>
-                  <td>{{T_Name}}</td>
-                  <td>{{Calories}}</td>
-                  <td>{{Fat}}</td>
-                  <td>{{Carbs}}</td>
-                  <td>{{Fiber}}</td>
-                  <td>{{Time}}</td>
-                  <td>
-					<a title="Edit" class="btn btn-default btn-sm toggle-modal edit" data-target="#myModal" href="?action=edit&id={{id}}">
-						<i class="glyphicon glyphicon-pencil"></i>
-					</a>
-					<a title="Delete" class="btn btn-default btn-sm toggle-modal delete" data-target="#myModal" href="?action=delete&id={{id}}">
-						<i class="glyphicon glyphicon-trash"></i>
-					</a>
-                  	
-                  </td>
-                </tr>			
-		</script>
-		
