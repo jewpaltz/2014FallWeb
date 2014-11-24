@@ -52,16 +52,31 @@
 		</div>
 		<div class="col-sm-4">
 			<div class="well">
-				
+				<input type="text" id="txtHeight" class="form-control" placeholder="Your Height (in)" />
+				<input type="text" id="txtWeight" class="form-control" placeholder="Your Weight" />
+				<div class="alert alert-success">
+					Your BMI:
+					<span id="bmi-total"></span>
+				</div>
 			</div>
 			<div class="well">
-				<div class="progress">Calories
+				<div class="progress">
 				  <div class="progress-bar" id="calories-bar">
-				  	
+				  	Calories
 				  </div>
+				</div>
+				<div class="progress">
+				  <div class="progress-bar" id="fat-bar">
+				  	Fat
+				  </div>
+				</div>
+				<div class="progress">
+				  <div class="progress-bar" id="fiber-bar">
+				  	Fiber
+				  </div>
+				</div>
 			</div>
 		</div>
-	</div>
 
 </div>
 			
@@ -71,9 +86,10 @@
 		<script type="text/javascript">
 			$(function(){
 				$(".food").addClass("active");
-				var goalCalories  = 2000;
-				var totalCalories = 0;
-								
+				
+				var calories = { goal: 2000, total: 0 };
+				var fat = { goal: 60, total: 0 };
+				var fiber = { goal: 60, total: 0 };
 				
 				var $mContent = $("#myModal .modal-content");
 				var defaultContent = $mContent.html();
@@ -82,10 +98,22 @@
 				
 				$.getJSON('?format=json', function(data){
 					$.each(data, function(i,el){
-						totalCalories += +el.Calories;
+						calories.total += +el.Calories;
+						fat.total += +el.Fat;
+						fiber.total += +el.Fiber;
+						
 						$('tbody').append(tmpl(el));
 					});
-					$('#calories-bar').css({width: Math.round(totalCalories / goalCalories * 100) + '%'});
+					$('#calories-bar').css({width: Math.round(calories.total / calories.goal * 100) + '%'});
+					$('#fat-bar').css({width: Math.round(fat.total / fat.goal * 100) + '%'});
+					$('#fiber-bar').css({width: Math.round(fiber.total / fiber.goal * 100) + '%'});
+				});
+				
+				$('#txtHeight, #txtWeight').on('keypress', function(){
+					var height = +$('#txtHeight').val();
+					var weight = +$('#txtWeight').val();
+					var bmi = (weight / (height * height)) * 703
+					$('#bmi-total').html(bmi);
 				});
 				
 				$('body').on('click', ".toggle-modal", function(event){
