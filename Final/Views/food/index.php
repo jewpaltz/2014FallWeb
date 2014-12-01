@@ -55,10 +55,10 @@
                   <td>{{row.Fiber}}</td>
                   <td>{{row.Time}}</td>
                   <td>
-					<a title="Edit" class="btn btn-default btn-sm toggle-modal edit" data-target="#myModal" href="?action=edit&id={{row.id}}">
+					<a ng-click="click(row)" title="Edit" class="btn btn-default btn-sm toggle-modal edit" data-target="#myModal" href="?action=edit&id={{row.id}}">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
-					<a title="Delete" class="btn btn-default btn-sm toggle-modal delete" data-target="#myModal" href="?action=delete&id={{row.id}}">
+					<a ng-click="click(row)" title="Delete" class="btn btn-default btn-sm toggle-modal delete" data-target="#myModal" href="?action=delete&id={{row.id}}">
 						<i class="glyphicon glyphicon-trash"></i>
 					</a>
                   	
@@ -78,17 +78,17 @@
 			</div>
 			<div class="well">
 				<div class="progress">
-				  <div class="progress-bar" ng-style="{ width: (calories / 2000 * 100) + '%' }">
+				  <div class="progress-bar" ng-style="{ width: (calories() / 2000 * 100) + '%' }">
 				  	Calories
 				  </div>
 				</div>
 				<div class="progress">
-				  <div class="progress-bar"  ng-style="{ width: (fat / 60 * 100) + '%' }">
+				  <div class="progress-bar"  ng-style="{ width: (fat() / 60 * 100) + '%' }">
 				  	Fat
 				  </div>
 				</div>
 				<div class="progress">
-				  <div class="progress-bar"  ng-style="{ width: (fiber / 60 * 100) + '%' }">
+				  <div class="progress-bar"  ng-style="{ width: (fiber() / 60 * 100) + '%' }">
 				  	Fiber
 				  </div>
 				</div>
@@ -102,7 +102,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 		<script type="text/javascript" src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js"></script>
 		<script type="text/javascript">
-			
+			var $mContent;
 			var app = angular.module('app', [])
 			.controller('bmiCalculator', function ($scope){
 				$scope.results = function(){
@@ -110,63 +110,70 @@
 				};
 			})
 			.controller('index', function($scope, $http){
+				$scope.curRow = null;
+				$scope.click = function(row){
+					$scope.curRow = row;
+				}
+				
 				$http.get('?format=json')
 				.success(function(data){
 					$scope.data = data;
-					$scope.calories = sum(data, 'Calories');
-					$scope.fat = sum(data, 'Fat');
-					$scope.fiber = sum(data, 'Fiber');
+					$scope.calories = function(){ return sum(data, 'Calories'); };
+					$scope.fat = function(){ return sum(data, 'Fat');  };
+					$scope.fiber = function(){ return sum(data, 'Fiber');  };
 				});
+				
+				$('body').on('click', ".toggle-modal", function(event){
+					event.preventDefault();
+					var $btn = $(this);
+					MyFormDialog(this.href, function (data) {
+						$("#myAlert").show().find('div').html(JSON.stringify(data));
+						
+						if($btn.hasClass('edit')){
+							$scope.data[$scope.data.indexOf($scope.curRow)] = data;
+						}
+						if($btn.hasClass('add')){
+							$scope.data.push(data);							
+						}
+						if($btn.hasClass('delete')){
+							$scope.data.splice($scope.data.indexOf($scope.curRow), 1);					
+						}
+						$scope.$apply();
+					})								
+				})
 			});
 			
 			function sum(data, field){
 				var total = 0;
 				$.each(data, function(i, el){
-					total += el[field];
+					total += +el[field];
 				});
 				return total;
 			}
+			function MyFormDialog (url, then /*callback when the form is submitted*/) {
+			  	$("#myModal").modal("show");
+			  	$.get(url + "&format=plain", function(data){
+					$mContent.html(data);
+					$mContent.find('form')
+					.on('submit', function(e){
+						e.preventDefault();
+						$("#myModal").modal("hide");
+						
+						$.post(this.action + '&format=json', $(this).serialize(), function(data){
+							then(data);
+						}, 'json');
+					});
+				});
+			}				
+			
+			
 			$(function(){
 				$(".food").addClass("active");
 								
-				var $mContent = $("#myModal .modal-content");
+				$mContent = $("#myModal .modal-content");
 				var defaultContent = $mContent.html();
 				
-								
 				
-				$('body').on('click', ".toggle-modal", function(event){
-					event.preventDefault();
-					$("#myModal").modal("show");
-					var $btn = $(this);
-					
-					$.get(this.href + "&format=plain", function(data){
-						$mContent.html(data);
-						$mContent.find('form')
-						.on('submit', function(e){
-							e.preventDefault();
-							$("#myModal").modal("hide");
-							
-							$.post(this.action + '&format=json', $(this).serialize(), function(data){
-								
-								$("#myAlert").show().find('div').html(JSON.stringify(data));
-								
-								if($btn.hasClass('edit')){
-									$btn.closest('tr').replaceWith(tmpl(data));							
-								}
-								if($btn.hasClass('add')){
-									$('tbody').append(tmpl(data));							
-								}
-								if($btn.hasClass('delete')){
-									$btn.closest('tr').remove();							
-								}
-								
-								$('#calories-bar').css({width: Math.round(totalCalories / goalCalories * 100) + '%'});
-							}, 'json');
-							
-							
-						});
-					});
-				})
 								
 				$('#myModal').on('hidden.bs.modal', function (e) {
 					$mContent.html(defaultContent);
