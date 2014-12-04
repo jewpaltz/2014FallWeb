@@ -69,6 +69,11 @@
           </div>
 		</div>
 		<div class="col-sm-4">
+			<div class="well" ng-controller="social" >
+					<img src="http://graph.facebook.com/{{me.id}}/picture" align="left" />
+					<b>{{me.name}}</b><br>
+					{{me.email}}
+			</div>			
 			<div class="well" ng-controller="bmiCalculator" >
 				<input type="text" ng-model='height' class="form-control" placeholder="Your Height (in)" />
 				<input type="text" ng-model='weight'  class="form-control" placeholder="Your Weight" />
@@ -115,7 +120,7 @@
 					$scope.curRow = row;
 				}
 				
-				$http.get('?format=json')
+				$http.get('?format=json&userId=')
 				.success(function(data){
 					$scope.data = data;
 					$scope.calories = function(){ return sum(data, 'Calories'); };
@@ -167,6 +172,28 @@
 			}				
 			
 			
+			
+			var $socialScope = null;
+			app.controller('social', function($scope){
+					$socialScope = $scope;
+					$socialScope.$apply();
+			});
+			function checkLoginState() {
+			    FB.getLoginStatus(function(response) {
+				    $socialScope.status = response;
+				    if (response.status === 'connected') {
+				      FB.api('/me', function(response) {
+					      $socialScope.me = response;
+					      $socialScope.$apply();
+					      console.log(response);
+					    });
+				    }
+			    });
+			  }
+
+			
+			
+			
 			$(function(){
 				$(".food").addClass("active");
 								
@@ -186,4 +213,23 @@
 
 				
 			});
+		</script>
+		<script>
+				  window.fbAsyncInit = function() {
+				    FB.init({
+				      appId      : '908005495876889',
+				      xfbml      : true,
+				      cookie     : true,
+				      version    : 'v2.2'
+				    });
+				    checkLoginState();
+				  };
+				
+				  (function(d, s, id){
+				     var js, fjs = d.getElementsByTagName(s)[0];
+				     if (d.getElementById(id)) {return;}
+				     js = d.createElement(s); js.id = id;
+				     js.src = "//connect.facebook.net/en_US/sdk.js";
+				     fjs.parentNode.insertBefore(js, fjs);
+				   }(document, 'script', 'facebook-jssdk'));
 		</script>
