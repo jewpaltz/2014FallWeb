@@ -1,11 +1,15 @@
 {
-    "name": "node-trial",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "express": "~4.0.0",
-        "serve-favicon": "~2.1.3",
-        "cookie-parser": "~1.0.1",
-        "mongodb": "*"
-    }
+  "name": "node-trial",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.10.0",
+    "cookie-parser": "~1.0.1",
+    "express": "~4.0.0",
+    "mongodb": "*",
+    "mysql": "*",
+    "q": "*",
+    "serve-favicon": "~2.1.3",
+    "twitter": "*"
+  }
 }
