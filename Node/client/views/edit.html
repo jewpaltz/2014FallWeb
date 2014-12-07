@@ -1,0 +1,66 @@
+<form class="form-horizontal" >
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title" id="myModalLabel">Record a food</h4>
+  </div>
+  <div class="modal-body">
+  	
+  		<div ng-show="errors" class="alert alert-danger">
+  			<ul>
+				  <li ng-repeat="err in errors">{{err.key}} {{err.value}}</li>
+				</ul>
+  		</div>
+
+		  <div class="form-group ">
+		    <label for="txtName" class="col-sm-2 control-label">Name</label>
+		    <div class="col-sm-10">
+		      <input ng-model="row.Name" type="text" class="form-control" id="txtName" name="Name" placeholder="Name" />
+		      <span class="help-block">{{errors.Name}}</span>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="selType_id" class="col-sm-2 control-label">Type</label>
+		    <div class="col-sm-10">
+		    	<select class="form-control" ng-model="row.Type_id" ng-options="type.id as type.Name for type in data.food_types">
+		    		<option value=""> -- Select a Type --</option>
+		    	</select>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="txtCalories" class="col-sm-2 control-label">Calories</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="txtCalories" name="Calories" placeholder="Calories" ng-model="row.Calories">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="txtFat" class="col-sm-2 control-label">Fat</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="txtFat" name="Fat" placeholder="Fat" ng-model="row.Fat">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="txtCarbs" class="col-sm-2 control-label">Carbs</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="txtCarbs" name="Carbs" placeholder="Carbs" ng-model="row.Carbs">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="txtFiber" class="col-sm-2 control-label">Fiber</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="txtFiber" name="Fiber" placeholder="Fiber" ng-model="row.Fiber">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="txtTime" class="col-sm-2 control-label">Time</label>
+		    <div class="col-sm-10">
+		      <input type="datetime" class="form-control" id="txtTime" name="Time" placeholder="Time"  ng-model="row.Time">
+		    </div>
+		  </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#/" class="btn btn-default" >Cancel</a>
+    <input type="button" ng-click="save()" class="btn btn-primary" value="Save changes" />
+  </div>
+  </form>

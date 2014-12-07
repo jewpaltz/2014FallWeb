@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>Fitness Tracker</title>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="./css/main.css" >
+		<link rel="stylesheet" href="./css/animations.css" >
+	</head>
+
+	<body ng-app="app" >
+		<div id="top-nav">
+			<ng-include src="'nav.html'" />
+		</div>
+		<br />
+		<div class="container " ng-controller="root">
+        	<div class="row" >
+        		<div class="col-sm-8 slide-animate-container">
+        		    <ng-view class="slide-animate" />
+        		</div>
+        		<div class="col-sm-4">
+        			<div class="well" ng-controller="social" >
+        					<img src="http://graph.facebook.com/{{me.id}}/picture" align="left" />
+        					<b>{{me.name}}</b><br>
+        					{{me.email}}
+        			</div>			
+        			<div class="well" ng-controller="bmiCalculator" >
+        				<input type="text" ng-model='height' class="form-control" placeholder="Your Height (in)" />
+        				<input type="text" ng-model='weight'  class="form-control" placeholder="Your Weight" />
+        				<div class="alert alert-success">
+        					Your BMI: {{ results() }}
+        				</div>
+        			</div>
+        			<div class="well">
+        				<div class="progress">
+        				  <div class="progress-bar progress-bar-striped" ng-style="{ width: calories()  }" ng-class="barClass(calories())">
+        				  	<span>Calories</span> 
+        				  </div>
+        				</div>
+        				<div class="progress">
+        				  <div class="progress-bar progress-bar-striped"  ng-style="{ width: fat() }" ng-class="barClass(fat())">
+        				  	Fat
+        				  </div>
+        				</div>
+        				<div class="progress">
+        				  <div class="progress-bar progress-bar-striped"  ng-style="{ width: fiber() }" ng-class="barClass(fiber(), true)">
+        				  	Fiber
+        				  </div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+	    </div>
+			<footer>
+				<div class="container">
+					<p>
+						&copy; Copyright  by Moshe
+					</p>
+				</div>
+			</footer>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.4.0/holder.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-animate.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.js"></script>
+		<script src="app.js"></script>
+		<script type="text/javascript">
+
+		</script>
+</body>
+</html>
