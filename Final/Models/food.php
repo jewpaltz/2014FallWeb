@@ -24,6 +24,15 @@ class Food {
 			return FetchAll($sql);			
 		}
 	}
+	public static function Search($q)
+	{
+		$sql = "	SELECT E.*, T.Name as T_Name
+					FROM 2014Fall_Food_Eaten E
+						Join 2014Fall_Food_Types T ON E.Type_id = T.id
+					WHERE E.Name LIKE '%$q%'
+		";
+		return FetchAll($sql);			
+	}
 	
 		static public function Save(&$row)
 		{
