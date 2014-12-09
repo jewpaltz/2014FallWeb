@@ -28,6 +28,12 @@ module.exports = {
     delete: function(id, then){
 		var sql =   " DELETE FROM 2014Fall_Food_Eaten WHERE id = " + id;
 		g.fetchAll(sql, then);        
+    },
+    search: function(q, then){
+        var sql =   ' SELECT F.* '
+                +   ' FROM `2014Fall_Food_Eaten` F  '
+                +   " WHERE F.Name LIKE '%" + q + "%'";
+        g.fetchAll(sql, then);
     }
 }
 

@@ -62,6 +62,16 @@
 				};
 			})
 			.controller('index', function($scope, $http){
+				$scope.quickAdd = false;
+				$('.typeahead').typeahead({}, {
+					displayKey: 'Name',
+					source: function(q, cb){
+						$http.get('/food/search/' + q)
+						.success(function(matches){
+							cb(matches);
+						})
+					}
+				});
 			})
 			.controller('create', function($scope, $http, $location){
 			    $scope.row = null;
@@ -74,32 +84,32 @@
 					}
 			})
 			.controller('edit', function($scope, $http, $routeParams, $location, first){
-					$scope.dataQ.success(function(){
-			    	$scope.row = first($scope.data.food, function(el){ return el.id == $routeParams.id });
+				$scope.dataQ.success(function(){
+		    	$scope.row = first($scope.data.food, function(el){ return el.id == $routeParams.id });
+				});
+				$scope.save = function(){
+					$http.put('/food/' + $scope.row.id, $scope.row)
+					.success(function(data){
+						$scope.data.food[$scope.data.food.indexOf($scope.row)] = data.row;
+						$location.path( '/' );
 					});
-					$scope.save = function(){
-						$http.put('/food/' + $scope.row.id, $scope.row)
-						.success(function(data){
-							$scope.data.food[$scope.data.food.indexOf($scope.row)] = data.row;
-							$location.path( '/' );
-						});
-					}
+				}
 			})
 			.controller('delete', function($scope, $http, $routeParams, $location, first){
-					$scope.dataQ.success(function(){
-			    	$scope.row = first($scope.data.food, function(el){ return el.id == $routeParams.id });
+				$scope.dataQ.success(function(){
+		    	$scope.row = first($scope.data.food, function(el){ return el.id == $routeParams.id });
+				});
+				$scope.save = function(){
+					$http.delete('/food/' + $scope.row.id)
+					.success(function(status){
+						console.log(status);
+						$scope.data.food.splice($scope.data.food.indexOf($scope.row), 1);
+						$location.path( '/' );
 					});
-					$scope.save = function(){
-						$http.delete('/food/' + $scope.row.id)
-						.success(function(status){
-								console.log(status);
-								$scope.data.food.splice($scope.data.food.indexOf($scope.row), 1);
-								$location.path( '/' );
-						});
-					};
+				};
 			})
 			;
 			var $socialScope = null;
 			app.controller('social', function($scope){
-					$socialScope = $scope;
+				$socialScope = $scope;
 			});

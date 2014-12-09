@@ -53,11 +53,16 @@ app.route('/food/:id')
 app.route('/beers')
 	.get(function (req, res) {
 		g.get("http://api.openbeerdatabase.com/v1/beers.json", function(data) {
-				//console.log(data)
+			//console.log(data)
 		    res.send(data);
 		})
 	})
-
+app.get('/food/search/:q', function (req, res) {
+	model.search(req.params.q, function(data) {
+		//console.log(data)
+	    res.send(data);
+	});
+});
 var server = app.listen(process.env.PORT, function () {
   console.log('Example app listening at http://%s:%s',process.env.IP, server.address().port);
 });
