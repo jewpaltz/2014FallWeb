@@ -1,0 +1,10 @@
+{
+  "name": "node-launch-trial",
+  "version": "0.0.1",
+  "private": true,
+	"scripts": {
+	  "start": "node ./Node/fitness.js"
+	},
+	"main": "./Node/fitness.js",
+  "dependencies": {}
+}
