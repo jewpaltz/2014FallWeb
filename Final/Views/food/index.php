@@ -7,11 +7,25 @@
 <div class="container content" ng-app="app" ng-controller='index' >
 	
 	<? //my_print($model); ?>
+	<div class="row">
+	<div class="btn-group col-sm-2">
 	<a class="btn btn-success toggle-modal add" data-target="#myModal" href="?action=create">
 		<i class="glyphicon glyphicon-plus"></i>
 		Add
 	</a>
+	  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+	    <span class="caret"></span>
+	    <span class="sr-only">Toggle Dropdown</span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	    <li><a ng-click="showQuickAdd = !showQuickAdd">Quick Add</a></li>
+  	  </ul>
+  </div>
 	
+	<div class="col-sm-6" ng-show="showQuickAdd">
+		<input type="text" class="typeahead form-control" placeholder="Saved Foods" />
+	</div>
+	</div>
 	<div class="row" >
 		<div class="col-sm-8">
 						
@@ -102,10 +116,72 @@
 
 </div>
 			
+		<style type="text/css">
+		
+			.twitter-typeahead {
+				width: 100%;
+			}
+		
+			.tt-query {
+			  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			}
 			
+			.tt-hint {
+			  color: #999
+			}
+			
+			.tt-dropdown-menu {
+			  width: 100%;
+			  margin-top: 0;
+			  padding: 2px 0;
+			  background-color: #fff;
+			  border: 1px solid #ccc;
+			  border: 1px solid rgba(0, 0, 0, 0.2);
+			  -webkit-border-radius: 8px;
+			     -moz-border-radius: 8px;
+			          border-radius: 8px;
+			  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+			     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+			          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+			}
+			
+			.tt-suggestion {
+			  padding: 3px 20px;
+			  font-size: 18px;
+			  line-height: 24px;
+			}
+			
+			.tt-suggestion.tt-cursor {
+			  color: #fff;
+			  background-color: #0097cf;
+			
+			}
+			
+			.tt-suggestion p {
+			  margin: 0;
+			}
+
+		</style>	
 			
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 		<script type="text/javascript" src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
+		<script type="text/javascript">
+			$('.typeahead').typeahead({ },
+			{
+			  displayKey: 'Name',
+			  source: function(q, callback){
+			  	$.getJSON('?action=search&format=json&q=' + q, function(data){
+			  		callback(data);
+			  	});
+			  	
+			  }
+			});	
+		</script>
+		
+		
 		<script type="text/javascript">
 			var $mContent;
 			var app = angular.module('app', [])
@@ -115,6 +191,7 @@
 				};
 			})
 			.controller('index', function($scope, $http){
+				$scope.showQuickAdd = false;
 				$scope.curRow = null;
 				$scope.click = function(row){
 					$scope.curRow = row;
